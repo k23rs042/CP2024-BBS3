@@ -246,10 +246,14 @@ function updatePost(postId) {
     const updates = {
         content: contentVal,
         updatedAt: firebase.database.ServerValue.TIMESTAMP
+         
     };
 
-    postsRef.child(postId).update({
-        update
+   postsRef.child(postId).update(updates)
+        .then(() => {
+            showMessage('投稿を更新しました');
+            $(`#post-${postId}`).removeClass('editing');
+            animateUpdate(postId);
         })
         .catch((error) => {
             showMessage('更新に失敗しました：' + error.message, 'error');
